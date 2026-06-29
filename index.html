@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SolidWorks and Fusion 360 Tutoring | Kamil Siddiqui CSWP</title>
+    <meta name="description" content="Live SolidWorks and Fusion 360 tutoring with Kamil Siddiqui, CSWP certified. Time-based pricing from $0.50/min, solo and group sessions available.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg: #EEF1F6;
+            --bg-card: #FFFFFF;
+            --bg-stripe: #F4F6FA;
+            --cobalt: #1D4ED8;
+            --cobalt-dim: rgba(29, 78, 216, 0.07);
+            --cobalt-border: rgba(29, 78, 216, 0.2);
+            --ink: #111827;
+            --ink-secondary: #374151;
+            --ink-muted: #6B7280;
+            --ink-faint: #9CA3AF;
+            --border: rgba(0, 0, 0, 0.07);
+            --border-strong: rgba(0, 0, 0, 0.12);
+            --radius: 6px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--bg);
+            color: var(--ink);
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 15px;
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(29, 78, 216, 0.035) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(29, 78, 216, 0.035) 1px, transparent 1px);
+            background-size: 28px 28px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ===== LAYOUT ===== */
+        .wrap {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 0 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            padding: 72px 0 52px;
+        }
+
+        .header-eyebrow {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--cobalt);
+            margin-bottom: 18px;
+        }
+
+        .header-name {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(38px, 6vw, 62px);
+            font-weight: 800;
+            line-height: 1.0;
+            letter-spacing: -0.03em;
+            color: var(--ink);
+            margin-bottom: 10px;
+        }
+
+        .header-subtitle {
+            font-size: clamp(15px, 2vw, 18px);
+            color: var(--ink-secondary);
+            margin-bottom: 28px;
+            font-weight: 400;
+        }
+
+        .creds {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .cred {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 5px 11px;
+            border: 1px solid var(--cobalt-border);
+            border-radius: 3px;
+            color: var(--cobalt);
+            background: var(--cobalt-dim);
+        }
+
+        /* ===== QUICK STATS ===== */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--border-strong);
+            border: 1px solid var(--border-strong);
+            border-radius: var(--radius);
+            overflow: hidden;
+            margin: 40px 0;
+        }
+
+        .stat {
+            background: var(--bg-card);
+            padding: 24px 20px;
+            text-align: center;
+        }
+
+        .stat-val {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 30px;
+            font-weight: 600;
+            color: var(--cobalt);
+            display: block;
+            line-height: 1;
+            margin-bottom: 7px;
+        }
+
+        .stat-lbl {
+            font-size: 11px;
+            color: var(--ink-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        /* ===== SECTIONS ===== */
+        .section {
+            padding: 52px 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .sec-head {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(20px, 3vw, 26px);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+        }
+
+        .sec-desc {
+            color: var(--ink-secondary);
+            font-size: 14px;
+            max-width: 560px;
+            margin-bottom: 28px;
+        }
+
+        /* ===== RATE CALLOUT (signature element) ===== */
+        /*
+         * Styled after CAD dimension callouts. Four vertical bars of
+         * decreasing height show the rate dropping each hour. A dimension
+         * line runs underneath with tick marks at each hour boundary,
+         * mirroring the annotation style you see in SolidWorks drawings.
+         */
+        .rate-callout {
+            background: var(--bg-card);
+            border: 1px solid var(--border-strong);
+            border-radius: var(--radius);
+            padding: 28px 24px 20px;
+            margin-bottom: 28px;
+        }
+
+        .rate-callout-label {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            color: var(--ink-faint);
+            margin-bottom: 16px;
+        }
+
+        .rate-bars {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 4px;
+            height: 44px;
+            align-items: end;
+            margin-bottom: 0;
+        }
+
+        .rate-bar {
+            border-radius: 2px 2px 0 0;
+            background: var(--cobalt);
+        }
+
+        .r1 { height: 100%; opacity: 1; }
+        .r2 { height: 78%; opacity: 0.72; }
+        .r3 { height: 54%; opacity: 0.48; }
+        .r4 { height: 32%; opacity: 0.3; }
+
+        .dim-line {
+            height: 1.5px;
+            background: var(--border-strong);
+            position: relative;
+            margin-bottom: 10px;
+        }
+
+        .dim-line::before,
+        .dim-line::after {
+            content: '';
+            position: absolute;
+            top: -5px;
+            width: 1.5px;
+            height: 11px;
+            background: var(--border-strong);
+        }
+
+        .dim-line::before { left: 0; }
+        .dim-line::after { right: 0; }
+
+        .rate-ticks {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 4px;
+        }
+
+        .tick { text-align: center; }
+
+        .tick-hr {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 9px;
+            color: var(--ink-faint);
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .tick-price {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--cobalt);
+            display: block;
+        }
+
+        /* ===== TABLES ===== */
+        .tbl-wrap {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border: 1px solid var(--border-strong);
+            border-radius: var(--radius);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13.5px;
+        }
+
+        thead tr {
+            background: var(--bg-stripe);
+        }
+
+        th {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 9.5px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--ink-muted);
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border-strong);
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 13px 16px;
+            border-bottom: 1px solid var(--border);
+            color: var(--ink-secondary);
+            vertical-align: middle;
+        }
+
+        td:first-child {
+            color: var(--ink);
+            font-weight: 500;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        tbody tr:hover td {
+            background: var(--bg-stripe);
+        }
+
+        .mono {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 13px;
+        }
+
+        .row-cap td {
+            background: var(--cobalt-dim);
+            color: var(--ink);
+            font-weight: 500;
+        }
+
+        .row-cap td:first-child {
+            color: var(--cobalt);
+        }
+
+        .row-cap .mono {
+            color: var(--cobalt);
+        }
+
+        /* ===== NOTE ===== */
+        .note {
+            font-size: 12.5px;
+            color: var(--ink-muted);
+            margin-top: 12px;
+            padding: 10px 14px;
+            background: var(--bg-card);
+            border-left: 2px solid var(--cobalt-border);
+            border-radius: 0 3px 3px 0;
+        }
+
+        /* ===== SUBSECTION LABEL ===== */
+        .sub-label {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--ink-muted);
+            margin: 32px 0 12px;
+        }
+
+        /* ===== PACKAGES ===== */
+        .pkg-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .pkg {
+            background: var(--bg-card);
+            border: 1px solid var(--border-strong);
+            border-radius: var(--radius);
+            padding: 22px 18px;
+        }
+
+        .pkg.featured {
+            border-color: rgba(29, 78, 216, 0.28);
+            background: linear-gradient(145deg, rgba(29, 78, 216, 0.04) 0%, var(--bg-card) 60%);
+        }
+
+        .pkg-tier {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: var(--ink-muted);
+            margin-bottom: 6px;
+        }
+
+        .pkg-price {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 26px;
+            font-weight: 600;
+            color: var(--cobalt);
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .pkg-name {
+            font-family: 'Syne', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .pkg-desc {
+            font-size: 12.5px;
+            color: var(--ink-secondary);
+            line-height: 1.55;
+        }
+
+        /* ===== STEPS ===== */
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .step {
+            background: var(--bg-card);
+            border: 1px solid var(--border-strong);
+            border-radius: var(--radius);
+            padding: 22px 18px;
+        }
+
+        .step-n {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--cobalt);
+            display: block;
+            line-height: 1;
+            margin-bottom: 12px;
+            opacity: 0.35;
+        }
+
+        .step-text {
+            font-size: 13.5px;
+            color: var(--ink-secondary);
+            line-height: 1.6;
+        }
+
+        /* ===== TOPICS ===== */
+        .topics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .topic {
+            padding: 11px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 13px;
+            color: var(--ink-secondary);
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            line-height: 1.45;
+        }
+
+        .topic::before {
+            content: '';
+            width: 5px;
+            height: 5px;
+            border: 1.5px solid var(--cobalt);
+            border-radius: 1px;
+            flex-shrink: 0;
+            margin-top: 4px;
+        }
+
+        /* ===== CTA ===== */
+        .cta-wrap {
+            padding: 64px 0 80px;
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+
+        .cta-heading {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(26px, 4vw, 38px);
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            margin-bottom: 10px;
+        }
+
+        .cta-sub {
+            color: var(--ink-secondary);
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            background: var(--cobalt);
+            color: #fff;
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 13px;
+            letter-spacing: 0.06em;
+            padding: 13px 34px;
+            border-radius: 3px;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: opacity 0.15s, transform 0.15s;
+        }
+
+        .cta-btn:hover {
+            opacity: 0.85;
+            transform: translateY(-1px);
+        }
+
+        .cta-btn:focus-visible {
+            outline: 2px solid var(--cobalt);
+            outline-offset: 3px;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            border-top: 1px solid var(--border-strong);
+            padding: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        footer p {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 10px;
+            color: var(--ink-faint);
+            letter-spacing: 0.06em;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 620px) {
+            .stats-row { grid-template-columns: 1fr; }
+            .pkg-grid  { grid-template-columns: 1fr; }
+            .steps     { grid-template-columns: 1fr; }
+            .topics-grid { grid-template-columns: 1fr; }
+            th, td { padding: 11px 12px; font-size: 12.5px; }
+        }
+
+        @media (max-width: 480px) {
+            .header { padding: 48px 0 36px; }
+            .section { padding: 40px 0; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .cta-btn { transition: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+
+        <!-- HEADER -->
+        <header class="header">
+            <p class="header-eyebrow">SolidWorks and Fusion 360 Tutoring / Rate Card and Session Guide</p>
+            <h1 class="header-name">Kamil Siddiqui</h1>
+            <p class="header-subtitle">Live 1-on-1 and group CAD tutoring, from first sketch to professional workflow.</p>
+            <div class="creds">
+                <span class="cred">CSWP Certified</span>
+                <span class="cred">4+ Years Experience</span>
+                <span class="cred">160+ CAD Projects</span>
+                <span class="cred">Fiverr: scyp101</span>
+            </div>
+        </header>
+
+        <!-- QUICK STATS -->
+        <div class="stats-row">
+            <div class="stat">
+                <span class="stat-val">$0.50</span>
+                <span class="stat-lbl">Starting rate / min</span>
+            </div>
+            <div class="stat">
+                <span class="stat-val">$0.35</span>
+                <span class="stat-lbl">Capped rate / min (Hr 4+)</span>
+            </div>
+            <div class="stat">
+                <span class="stat-val">5</span>
+                <span class="stat-lbl">Max group size</span>
+            </div>
+        </div>
+
+        <!-- HOW PRICING WORKS -->
+        <section class="section">
+            <h2 class="sec-head">How Pricing Works</h2>
+            <p class="sec-desc">Pricing is time-based. The longer you study, the lower your per-minute rate. The rate drops each hour and caps at hour 4. Every hour beyond that is charged at the capped rate.</p>
+
+            <!-- Rate progression: dimension-callout style -->
+            <div class="rate-callout" aria-label="Rate per hour progression chart">
+                <p class="rate-callout-label">Rate per Hour Progression</p>
+                <div class="rate-bars">
+                    <div class="rate-bar r1"></div>
+                    <div class="rate-bar r2"></div>
+                    <div class="rate-bar r3"></div>
+                    <div class="rate-bar r4"></div>
+                </div>
+                <div class="dim-line"></div>
+                <div class="rate-ticks">
+                    <div class="tick">
+                        <span class="tick-hr">Hour 1</span>
+                        <span class="tick-price">$30.00</span>
+                    </div>
+                    <div class="tick">
+                        <span class="tick-hr">Hour 2</span>
+                        <span class="tick-price">$27.00</span>
+                    </div>
+                    <div class="tick">
+                        <span class="tick-hr">Hour 3</span>
+                        <span class="tick-price">$24.00</span>
+                    </div>
+                    <div class="tick">
+                        <span class="tick-hr">Hour 4+</span>
+                        <span class="tick-price">$21.00</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tbl-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Session Hour</th>
+                            <th>Rate per Minute</th>
+                            <th>Rate per Hour</th>
+                            <th>Cumulative Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Hour 1</td>
+                            <td class="mono">$0.50 / min</td>
+                            <td class="mono">$30.00</td>
+                            <td class="mono">$30.00</td>
+                        </tr>
+                        <tr>
+                            <td>Hour 2</td>
+                            <td class="mono">$0.45 / min</td>
+                            <td class="mono">$27.00</td>
+                            <td class="mono">$57.00</td>
+                        </tr>
+                        <tr>
+                            <td>Hour 3</td>
+                            <td class="mono">$0.40 / min</td>
+                            <td class="mono">$24.00</td>
+                            <td class="mono">$81.00</td>
+                        </tr>
+                        <tr class="row-cap">
+                            <td>Hour 4+ (cap)</td>
+                            <td class="mono">$0.35 / min</td>
+                            <td class="mono">$21.00</td>
+                            <td class="mono">$102.00 at 4 hrs</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="note">Rate does not drop below $0.35 per minute regardless of session length.</p>
+        </section>
+
+        <!-- SOLO SESSION REFERENCE -->
+        <section class="section">
+            <h2 class="sec-head">Solo Session Cost Reference</h2>
+            <p class="sec-desc">Your total cost based on how long you book.</p>
+
+            <div class="tbl-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Session Length</th>
+                            <th>Rate (Final Hour)</th>
+                            <th>Breakdown</th>
+                            <th>Total Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1 hour</td>
+                            <td class="mono">$30.00 / hr</td>
+                            <td class="mono">Hr1: $30</td>
+                            <td class="mono">$30.00</td>
+                        </tr>
+                        <tr>
+                            <td>2 hours</td>
+                            <td class="mono">$27.00 / hr</td>
+                            <td class="mono">Hr1: $30 | Hr2: $27</td>
+                            <td class="mono">$57.00</td>
+                        </tr>
+                        <tr>
+                            <td>3 hours</td>
+                            <td class="mono">$24.00 / hr</td>
+                            <td class="mono">Hr1-2: $57 | Hr3: $24</td>
+                            <td class="mono">$81.00</td>
+                        </tr>
+                        <tr>
+                            <td>4 hours</td>
+                            <td class="mono">$21.00 / hr</td>
+                            <td class="mono">Hr1-3: $81 | Hr4: $21</td>
+                            <td class="mono">$102.00</td>
+                        </tr>
+                        <tr>
+                            <td>5 hours</td>
+                            <td class="mono">$21.00 / hr</td>
+                            <td class="mono">Hr1-4: $102 | Hr5: $21</td>
+                            <td class="mono">$123.00</td>
+                        </tr>
+                        <tr>
+                            <td>6 hours</td>
+                            <td class="mono">$21.00 / hr</td>
+                            <td class="mono">Hr1-5: $123 | Hr6: $21</td>
+                            <td class="mono">$144.00</td>
+                        </tr>
+                        <tr>
+                            <td>8 hours</td>
+                            <td class="mono">$21.00 / hr</td>
+                            <td class="mono">Hr1-7: $165 | Hr8: $21</td>
+                            <td class="mono">$186.00</td>
+                        </tr>
+                        <tr class="row-cap">
+                            <td>10 hours</td>
+                            <td class="mono">$21.00 / hr</td>
+                            <td class="mono">Hr1-9: $207 | Hr10: $21</td>
+                            <td class="mono">$228.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- GROUP DISCOUNTS -->
+        <section class="section">
+            <h2 class="sec-head">Group Session Discounts</h2>
+            <p class="sec-desc">Same time-based pricing, with a per-student discount for groups of 2 to 5 covering the same topic. Groups larger than 5 should message first to confirm format and rate.</p>
+
+            <div class="tbl-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Group Size</th>
+                            <th>Discount per Student</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2 students</td>
+                            <td class="mono">5% off each</td>
+                            <td>Same base rate applies</td>
+                        </tr>
+                        <tr>
+                            <td>5 students</td>
+                            <td class="mono">10% off each</td>
+                            <td>Same base rate applies</td>
+                        </tr>
+                        <tr>
+                            <td>5 to 10 students</td>
+                            <td>Negotiated directly</td>
+                            <td>Message to confirm rate</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p class="sub-label">Worked Example: 5-Hour Session (Solo base: $123.00)</p>
+            <div class="tbl-wrap" style="margin-bottom: 20px;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Group Size</th>
+                            <th>Discount</th>
+                            <th>Each Student Pays</th>
+                            <th>Total Quote</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1 (solo)</td>
+                            <td>None</td>
+                            <td class="mono">$123.00</td>
+                            <td class="mono">$123.00</td>
+                        </tr>
+                        <tr>
+                            <td>2 students</td>
+                            <td class="mono">5%</td>
+                            <td class="mono">$116.85</td>
+                            <td class="mono">$233.70</td>
+                        </tr>
+                        <tr class="row-cap">
+                            <td>5 students</td>
+                            <td class="mono">10%</td>
+                            <td class="mono">$110.70</td>
+                            <td class="mono">$553.50</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p class="sub-label">Worked Example: 10-Hour Session (Solo base: $228.00)</p>
+            <div class="tbl-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Group Size</th>
+                            <th>Discount</th>
+                            <th>Each Student Pays</th>
+                            <th>Total Quote</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1 (solo)</td>
+                            <td>None</td>
+                            <td class="mono">$228.00</td>
+                            <td class="mono">$228.00</td>
+                        </tr>
+                        <tr>
+                            <td>2 students</td>
+                            <td class="mono">5%</td>
+                            <td class="mono">$216.60</td>
+                            <td class="mono">$433.20</td>
+                        </tr>
+                        <tr class="row-cap">
+                            <td>5 students</td>
+                            <td class="mono">10%</td>
+                            <td class="mono">$205.20</td>
+                            <td class="mono">$1,026.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- FIVERR PACKAGES -->
+        <section class="section">
+            <h2 class="sec-head">Fiverr Package Reference</h2>
+            <p class="sec-desc">Packages are entry points for booking. Sessions longer than 1 hour or group bookings receive a custom offer after you message.</p>
+
+            <div class="pkg-grid">
+                <div class="pkg">
+                    <p class="pkg-tier">Basic</p>
+                    <p class="pkg-price">$30</p>
+                    <p class="pkg-name">1-Hour Session</p>
+                    <p class="pkg-desc">1 live 60-min session. Beginner friendly. First session or intro to SolidWorks or Fusion 360.</p>
+                </div>
+                <div class="pkg featured">
+                    <p class="pkg-tier">Standard</p>
+                    <p class="pkg-price">$57</p>
+                    <p class="pkg-name">2-Hour Sessions</p>
+                    <p class="pkg-desc">2 consecutive 60-min sessions with practice exercises. Focused topic, real progress across two sittings.</p>
+                </div>
+                <div class="pkg">
+                    <p class="pkg-tier">Premium</p>
+                    <p class="pkg-price">$30</p>
+                    <p class="pkg-name">Session Deposit</p>
+                    <p class="pkg-desc">Deposit to initiate long or group orders (3+ hours). Balance settled via a custom add-on offer.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- HOW TO BOOK -->
+        <section class="section">
+            <h2 class="sec-head">How to Book</h2>
+            <p class="sec-desc">Three steps from first message to scheduled session.</p>
+
+            <div class="steps">
+                <div class="step">
+                    <span class="step-n">01</span>
+                    <p class="step-text">Message on Fiverr with your topic, current skill level, estimated session length, and solo or group.</p>
+                </div>
+                <div class="step">
+                    <span class="step-n">02</span>
+                    <p class="step-text">Receive confirmation of availability and a custom offer with the final calculated price.</p>
+                </div>
+                <div class="step">
+                    <span class="step-n">03</span>
+                    <p class="step-text">Accept the offer. We schedule the session via video call at a time that works for you.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- TOPICS COVERED -->
+        <section class="section">
+            <h2 class="sec-head">Topics Covered</h2>
+            <p class="sec-desc">All sessions are built around your current level and goals, from day-one basics to CSWP exam prep.</p>
+
+            <div class="topics-grid">
+                <div class="topic">SolidWorks interface and sketch workflow</div>
+                <div class="topic">Part modeling: extrude, revolve, sweep, loft, shell, patterns</div>
+                <div class="topic">Assemblies, mates, and motion</div>
+                <div class="topic">Engineering drawings and detailing</div>
+                <div class="topic">Sheet metal basics in SolidWorks</div>
+                <div class="topic">CSWA and CSWP exam prep and practice problems</div>
+                <div class="topic">Fusion 360 for beginners and intermediate users</div>
+                <div class="topic">Project-based learning from real mechanical design examples</div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <div class="cta-wrap">
+            <h2 class="cta-heading">Ready to book a session?</h2>
+            <p class="cta-sub">Message on Fiverr to confirm availability and get your custom offer.</p>
+            <a href="https://www.fiverr.com/scyp101" target="_blank" rel="noopener noreferrer" class="cta-btn">Book on Fiverr</a>
+        </div>
+
+        <!-- FOOTER -->
+        <footer>
+            <p>Kamil Siddiqui / CSWP / Fiverr: scyp101</p>
+            <p>SolidWorks and Fusion 360 Tutoring</p>
+        </footer>
+
+    </div>
+</body>
+</html>
